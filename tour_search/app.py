@@ -29,4 +29,5 @@ def render_server_error(error):
     return f"server is broken {error.original_exception}", 500
 
 
-app.run()
+if __name__ == '__main__':
+    app.run()
