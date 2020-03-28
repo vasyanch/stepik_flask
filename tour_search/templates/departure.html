@@ -1,108 +1,24 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <title>Stepik Travel</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
+{% extends 'base.html' %}
 
-<body>
-  <header class="container mt-3">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="/">Stepik Travel</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="/departure/msk/">{{ departures.msk }}</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/departure/spb/">{{ departures.spb }}</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/departure/nsk/">{{ departures.nsk }}</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/departure/ekb/">{{ departures.ekb }}</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/departure/kazan/">{{ departures.kazan }}</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </header>
+{% block container %}
   <main class="container mt-3">
-    <h1 class="display-5 mt-4">Летим из Новосибирска</h1>
-    <p class="mb-4">Найдено 15 туров, от 26 000 до 84 600 и от 4 ночей до 15 ночей</p>
+    <h1 class="display-5 mt-4">Летим {{ departures.get(departure) }}</h1>
+    <p class="mb-4">Найдено {{ tours | length }} туров, от {{ prices | min }} до {{ prices | max }} и от {{ nights | min }} ночей до {{ nights | max }} ночей</p>
     <!-- CARDS -->
     <div class="row mt-5">
+    {% for tour_id, tour in tours %}
       <div class="col-4">
         <div class="card mb-4">
-          <img src={{ tours.1.picture }} class="card-img-top img-fluid" alt="">
+          <img src={{ tour.picture }} class="card-img-top img-fluid" alt="">
           <div class="card-body">
-            <h2 class="h5 card-title">{{ tours.1.country }}: <a href="/tour/1/">{{ tours.1.title }}</a></h2>
-            <p class="card-text">{{ tours.1.description }}</p>
-            <a href="/tour/1/" class="btn btn-sm btn-primary">Подробнее</a>
+            <h2 class="h5 card-title">{{ tour.country }}: <a href="/tour/{{ tour_id }}/">{{ tour.title }}</a></h2>
+            <p class="card-text">{{ tour.description }}</p>
+            <a href="/tour/{{ tour_id }}/" class="btn btn-sm btn-primary">Подробнее</a>
           </div>
         </div>
       </div>
-      <div class="col-4">
-        <div class="card mb-4">
-          <img src={{ tours.3.picture }} class="card-img-top img-fluid" alt="">
-          <div class="card-body">
-            <h2 class="h5 card-title">{{ tours.3.country }}: <a href="/tour/3/">{{ tours.3.title }}</a></h2>
-            <p class="card-text">{{ tours.3.description }}</p>
-            <a href="/tour/3/" class="btn btn-sm btn-primary">Подробнее</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-4">
-        <div class="card mb-4">
-          <img src={{ tours.9.picture }} class="card-img-top img-fluid" alt="">
-          <div class="card-body">
-            <h2 class="h5 card-title">{{ tours.9.country }}: <a href="/tour/9/">{{ tours.9.title }}</a></h2>
-            <p class="card-text">{{ tours.9.description }}</p>
-            <a href="/tour/9/" class="btn btn-sm btn-primary">Подробнее</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-4">
-        <div class="card mb-4">
-          <img src="https://place-hold.it/300x200" class="card-img-top img-fluid" alt="">
-          <div class="card-body">
-            <h2 class="h5 card-title">Hotel title</h2>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-sm btn-primary">Подробнее</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-4">
-        <div class="card mb-4">
-          <img src="https://place-hold.it/300x200" class="card-img-top img-fluid" alt="">
-          <div class="card-body">
-            <h2 class="h5 card-title">Hotel title</h2>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-sm btn-primary">Подробнее</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-4">
-        <div class="card mb-4">
-          <img src="https://place-hold.it/300x200" class="card-img-top img-fluid" alt="">
-          <div class="card-body">
-            <h2 class="h5 card-title">Hotel title</h2>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-sm btn-primary">Подробнее</a>
-          </div>
-        </div>
-      </div>
+    {% endfor %}
+
     </div>
   </main>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
-</html>
+{% endblock %}
