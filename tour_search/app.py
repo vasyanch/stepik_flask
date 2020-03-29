@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route('/')
 def render_index():
     sorted_tours = default_sort(tours)
-    return render_template('index.html', tours=sorted_tours, departures=departures)
+    return render_template('index.html', tours=sorted_tours[:6], departures=departures)
 
 
 @app.route('/departure/<departure>/')
