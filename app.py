@@ -8,13 +8,13 @@ app = Flask(__name__)
 
 @app.route('/')
 def render_index():
-    sorted_tours = default_sort(tours)
+    sorted_tours = sort_by_price(tours)
     return render_template('index.html', tours=sorted_tours[:6], departures=departures)
 
 
 @app.route('/departure/<departure>/')
 def render_departure(departure):
-    departure_tours = default_sort(
+    departure_tours = sort_by_price(
         {tour_id: value for tour_id, value in tours.items() if value['departure'] == departure}
     )
     prices = [tour[1]['price'] for tour in departure_tours]
@@ -30,17 +30,7 @@ def render_tour(tour_id):
     return render_template('tour.html', tour=tours.get(tour_id), departures=departures)
 
 
-@app.errorhandler(404)
-def render_not_found(error):
-    return f"page not found", 404
-
-
-@app.errorhandler(500)
-def render_server_error(error):
-    return f"server is broken {error.original_exception}", 500
-
-
-def default_sort(any_tours: dict) -> list:
+def sort_by_price(any_tours: dict) -> list:
     return sorted(any_tours.items(), key=lambda x: x[1]['price'])
 
 
