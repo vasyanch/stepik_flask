@@ -45,4 +45,4 @@ def default_sort(any_tours: dict) -> list:
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
