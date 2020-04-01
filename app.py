@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 
-from data import tours, departures
+from data import tours, departures, title, subtitle, description
 
 
 app = Flask(__name__)
@@ -9,7 +9,10 @@ app = Flask(__name__)
 @app.route('/')
 def render_index():
     sorted_tours = sort_by_price(tours)
-    return render_template('index.html', tours=sorted_tours[:6], departures=departures)
+    return render_template(
+        'index.html', tours=sorted_tours[:6], departures=departures, title=title, subtitle=subtitle,
+        description=description
+    )
 
 
 @app.route('/departure/<departure>/')
@@ -21,13 +24,15 @@ def render_departure(departure):
     nights = [tour[1]['nights'] for tour in departure_tours]
     return render_template(
         'departure.html', tours=departure_tours, departures=departures, departure=departure,
-        prices=prices, nights=nights
+        prices=prices, nights=nights, title=title
     )
 
 
 @app.route('/tour/<int:tour_id>/')
 def render_tour(tour_id):
-    return render_template('tour.html', tour=tours.get(tour_id), departures=departures)
+    return render_template(
+        'tour.html', tour=tours.get(tour_id), departures=departures, title=title
+    )
 
 
 def sort_by_price(any_tours: dict) -> list:
